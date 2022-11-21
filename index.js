@@ -82,8 +82,8 @@ async function main () {
                     auction_end,
                     "first_lease_period": convertToNumber(scheduledAuction.call.Value.args.lease_period_index),
                     "starting_period_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, startAuction, avgBlockTime),
-                    "ending_period_start_block": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
-                    "auction_end": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
+                    "ending_period_start_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
+                    "auction_end_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
                 }
                 parsedListOfAuctions.push(newAuction)
             }else{
