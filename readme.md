@@ -1,7 +1,6 @@
 # Auctions Tracker
 
 > ⚠️ DISCLAIMER -> The following is purely experimental and extremely rough. Please use with caution.
-
 > ❗️ IMPORTANT -> Kusama is currently not working because of the change in the scheduler for Gov v2.
 
 ## Objective
@@ -12,5 +11,4 @@ The objective of this project is to be able to track the auctions scheduled for 
 2. Install dependencies with `npm install`
 3. Run the project
     - For Polkadot: `npm run start` or `npm un start chain=polkadot`
-    - For Kusama: `npm run start chain=kusama`
-    
+    - For Kusama: `npm run start chain=kusama` -> currently not working.
