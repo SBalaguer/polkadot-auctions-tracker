@@ -1,7 +1,8 @@
 # Auctions Tracker
 
-> DISCLAIMER ⚠️
-> The following is purely experimental and extremely rough. Please use with caution.
+> ⚠️ DISCLAIMER -> The following is purely experimental and extremely rough. Please use with caution.
+
+> ❗️ IMPORTANT -> Kusama is currently not working because of the change in the scheduler for Gov v2.
 
 ## Objective
 The objective of this project is to be able to track the auctions scheduled for the Kusama and Polkadot Relay Chains. 
