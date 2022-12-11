@@ -1,8 +1,6 @@
 // Import
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { argv } from 'node:process';
-// import { TypeRegistry } from '../../../create'; 
-// import { Metadata } from '../../Metadata'; 
 
 let chain;
 
@@ -33,13 +31,6 @@ const buildApi = async (chain) => {
 
 const api = await buildApi(chain);
 
-//Build Metadata
-
-// const registry = new TypeRegistry();
-// var data = await api.rpc.state.getMetadata();
-// const metadata = new Metadata(registry,data);
-// registry.setMetadata(metadata);
-
 async function main () {
 
     // Get all constants
@@ -47,8 +38,6 @@ async function main () {
 
     // Get averageBlockTimes -> this will help calculate target dates
     const {avgBlockTime, lastBlockNumber, lastBlockTimestamp} = await calculateAvgBlockTime();
-
-    
 
     // Get information on ongoing Auction, if any
     const {isAuctionActive, activeAuctionInformation, currentAuctionLP, currentAuctionEndStartBlock} = await getCurrentAuction();
