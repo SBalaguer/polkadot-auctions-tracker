@@ -1,6 +1,8 @@
 // Import
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { argv } from 'node:process';
+// import { TypeRegistry } from '../../../create'; 
+// import { Metadata } from '../../Metadata'; 
 
 let chain;
 
@@ -31,6 +33,13 @@ const buildApi = async (chain) => {
 
 const api = await buildApi(chain);
 
+//Build Metadata
+
+// const registry = new TypeRegistry();
+// var data = await api.rpc.state.getMetadata();
+// const metadata = new Metadata(registry,data);
+// registry.setMetadata(metadata);
+
 async function main () {
 
     // Get all constants
@@ -53,69 +62,66 @@ async function main () {
     // At this moment, there is information of an ongoing auction, if any, and the scheduled auctions.
     // The objective is to build an array of objects of all ongoing + scheduled auctions, and storte it on the parsedListOfAuctions array.
 
-    if (chain !== 'kusama'){
-        // Get Scheduled auctions
-        const scheduledAuctions = await getScheduledActions();
+    // Get Scheduled auctions
+    const scheduledAuctions = await getScheduledActions();
 
-        const parsedListOfAuctions = [];
+    const parsedListOfAuctions = [];
 
-        // if there's an ongoing auction, use scheduler information to fill information gaps.
-        if (isAuctionActive){
-            //in here the full information of the active auction can be rebuilt.
-            scheduledAuctions.map((action) => {
-                if (convertToNumber(action.call.Value.args.lease_period_index) === currentAuctionLP){
-                    //starting_period_block = (the start of the ending period) - duration on arguments for newAuction call on scheduler
-                    //TODO: where can I get this information if this is the last auction scheduled
-                    activeAuctionInformation.starting_period_block = currentAuctionEndStartBlock - convertToNumber(action.call.Value.args.duration)
-                }
-                //auction_end = (the start of the ending period) + duration of auction (constant on auction module)
-                activeAuctionInformation.auction_end = currentAuctionEndStartBlock + durationEndingPeriod
-            })
-
-            parsedListOfAuctions.push(activeAuctionInformation)
-        }
-
-        //now on to the Scheduled Auctions
-        scheduledAuctions.sort((a, b) => (a.blockExecution > b.blockExecution ? 1 : -1)).map(scheduledAuction =>{
-            const iterations = scheduledAuction.maybePeriodic ? convertToNumber(scheduledAuction.maybePeriodic[1]) : 0;
-
-            for (let i=0; i<=iterations; i++){
-                if (!i){
-                    const startAuction = scheduledAuction.blockExecution
-                    const ending_period_start_block = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration)
-                    const auction_end =  startAuction + convertToNumber(scheduledAuction.call.Value.args.duration) + durationEndingPeriod
-                    const newAuction = {
-                        "starting_period_block": startAuction,
-                        ending_period_start_block,
-                        auction_end,
-                        "first_lease_period": convertToNumber(scheduledAuction.call.Value.args.lease_period_index),
-                        "starting_period_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, startAuction, avgBlockTime),
-                        "ending_period_start_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
-                        "auction_end_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
-                    }
-                    parsedListOfAuctions.push(newAuction)
-                }else{
-                    const startAuction = parsedListOfAuctions[parsedListOfAuctions.length-1].starting_period_block + convertToNumber(scheduledAuction.maybePeriodic[0])
-                    const ending_period_start_block = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration);
-                    const auction_end = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration) + durationEndingPeriod;
-                    const newAuction = {
-                        "starting_period_block": startAuction,
-                        ending_period_start_block,
-                        auction_end,
-                        "first_lease_period": convertToNumber(scheduledAuction.call.Value.args.lease_period_index),
-                        "starting_period_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, startAuction, avgBlockTime),
-                        "ending_period_start_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
-                        "auction_end_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
-                    }
-                    parsedListOfAuctions.push(newAuction)
-                }
+    // if there's an ongoing auction, use scheduler information to fill information gaps.
+    if (isAuctionActive){
+        //in here the full information of the active auction can be rebuilt.
+        scheduledAuctions.map((action) => {
+            if (convertToNumber(action.call.Value.args.lease_period_index) === currentAuctionLP){
+                //starting_period_block = (the start of the ending period) - duration on arguments for newAuction call on scheduler
+                //TODO: where can I get this information if this is the last auction scheduled
+                activeAuctionInformation.starting_period_block = currentAuctionEndStartBlock - convertToNumber(action.call.Value.args.duration)
             }
-
+            //auction_end = (the start of the ending period) + duration of auction (constant on auction module)
+            activeAuctionInformation.auction_end = currentAuctionEndStartBlock + durationEndingPeriod
         })
 
-        console.log(parsedListOfAuctions)
+        parsedListOfAuctions.push(activeAuctionInformation)
     }
-    
+
+    //now on to the Scheduled Auctions
+    scheduledAuctions.sort((a, b) => (a.blockExecution > b.blockExecution ? 1 : -1)).map(scheduledAuction =>{
+        const iterations = scheduledAuction.maybePeriodic ? convertToNumber(scheduledAuction.maybePeriodic[1]) : 0;
+
+        for (let i=0; i<=iterations; i++){
+            if (!i){
+                const startAuction = scheduledAuction.blockExecution
+                const ending_period_start_block = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration)
+                const auction_end =  startAuction + convertToNumber(scheduledAuction.call.Value.args.duration) + durationEndingPeriod
+                const newAuction = {
+                    "starting_period_block": startAuction,
+                    ending_period_start_block,
+                    auction_end,
+                    "first_lease_period": convertToNumber(scheduledAuction.call.Value.args.lease_period_index),
+                    "starting_period_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, startAuction, avgBlockTime),
+                    "ending_period_start_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
+                    "auction_end_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
+                }
+                parsedListOfAuctions.push(newAuction)
+            }else{
+                const startAuction = parsedListOfAuctions[parsedListOfAuctions.length-1].starting_period_block + convertToNumber(scheduledAuction.maybePeriodic[0])
+                const ending_period_start_block = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration);
+                const auction_end = startAuction + convertToNumber(scheduledAuction.call.Value.args.duration) + durationEndingPeriod;
+                const newAuction = {
+                    "starting_period_block": startAuction,
+                    ending_period_start_block,
+                    auction_end,
+                    "first_lease_period": convertToNumber(scheduledAuction.call.Value.args.lease_period_index),
+                    "starting_period_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, startAuction, avgBlockTime),
+                    "ending_period_start_block_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, ending_period_start_block, avgBlockTime),
+                    "auction_end_date": calculateTargetDate(lastBlockTimestamp, lastBlockNumber, auction_end, avgBlockTime),
+                }
+                parsedListOfAuctions.push(newAuction)
+            }
+        }
+
+    })
+
+    console.log(parsedListOfAuctions)
 
 }
 
@@ -136,7 +142,6 @@ const getConstants = async () => {
 const getScheduledActions = async () => {
     // These are the on-chain scheduled actions. Some are auctions, some are other things.
     const scheduledActions = await api.query.scheduler.agenda.entries();
-    // console.log(scheduledAuctions)
 
     // Need to extract the information that we need. TODO: Can we use a filter directly?
     const scheduledAuctions = [];
@@ -144,11 +149,27 @@ const getScheduledActions = async () => {
         //block_execution has the information of the block at which the scheduler is scheduled to be triggered
         //call_data is an array of the calls that will be triggered at the block_execution height
         //filter only for calls that are to create a newAuction. If this is not the case, it will be an empty array.
-        const auction = call_data.toHuman().filter(value => value && value.call.Value.method == "newAuction")
-
-        // if there is an auction, push all data to the array with scheduled auctions.
-        if (auction.length){
-            scheduledAuctions.push({...auction[0], "blockExecution": convertToNumber(block_execution.toHuman()[0])});
+        const actions = call_data.toHuman();
+       
+        if (chain === 'kusama'){
+            //Ideally I would have a way of identifiying which chain has the new structure of scheduler.
+            //For now it will only be kusama or non kusama.
+            actions.map(value =>{
+                if(value && value.call.Inline){
+                   const tx = api.createType('Call', value.call.Inline);
+                   const humanTx = tx.toHuman();
+                   if (humanTx.method === "newAuction"){
+                        value.call = {...value.call, "Value": humanTx}
+                        scheduledAuctions.push({...value, "blockExecution": convertToNumber(block_execution.toHuman()[0])})
+                   }
+                }
+           })
+        }else {
+            const auction = actions.filter(value => value && value.call.Value.method === "newAuction")
+            // if there is an auction, push all data to the array with scheduled auctions.
+            if (auction.length){
+                scheduledAuctions.push({...auction[0], "blockExecution": convertToNumber(block_execution.toHuman()[0])});
+            }
         }
     })
 
@@ -223,8 +244,6 @@ const calculateTargetDate = (t, b1, b2, avg) => {
     const targetTimestamp = t + ((b2-b1) * avg * 1000);
     return new Date(targetTimestamp)
 }
-
-
 
 const convertToNumber = (input) =>{
     return Number(input.split(",").join(""));
