@@ -111,6 +111,7 @@ async function main () {
     })
 
     console.log(parsedListOfAuctions)
+    return parsedListOfAuctions
 
 }
 
@@ -189,7 +190,8 @@ const getCurrentAuction = async () => {
 
 const calculateAvgBlockTime = async () => {
 
-    const FIRST_TIMESTAMP = 1590507378000
+    const FIRST_TIMESTAMP_POLKADOT = 1590507378000
+    const FIRST_TIMESTAMP_KUSAMA = 1574962074000
 
     const lastBlockHeader = await api.rpc.chain.getHeader();
     const lastBlockNumber = convertToNumber(lastBlockHeader.number.toHuman());
@@ -197,7 +199,12 @@ const calculateAvgBlockTime = async () => {
     const apiAt = await api.at(lastBlockHash)
     const lastBlockTimestamp = convertToNumber((await apiAt.query.timestamp.now()).toHuman());
 
-    const timeElapsed = (lastBlockTimestamp - FIRST_TIMESTAMP)/1000
+    let timeElapsed;
+    if (chain === "polkadot"){
+        timeElapsed = (lastBlockTimestamp - FIRST_TIMESTAMP_POLKADOT)/1000
+    } else {
+        timeElapsed = (lastBlockTimestamp - FIRST_TIMESTAMP_KUSAMA)/1000
+    }
     const avgBlockTime = timeElapsed / (lastBlockNumber - 1)
 
     return {avgBlockTime, lastBlockNumber, lastBlockTimestamp}
