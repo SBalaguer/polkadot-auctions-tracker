@@ -111,6 +111,7 @@ async function main () {
     })
 
     console.log(parsedListOfAuctions)
+    console.log("avgBlockTime", avgBlockTime)
     return parsedListOfAuctions
 
 }
@@ -140,8 +141,6 @@ const getScheduledActions = async () => {
         //call_data is an array of the calls that will be triggered at the block_execution height
         //filter only for calls that are to create a newAuction. If this is not the case, it will be an empty array.
         const actions = call_data.toHuman();
-       
-        if (chain === 'kusama'){
             //Ideally I would have a way of identifiying which chain has the new structure of scheduler.
             //For now it will only be kusama or non kusama.
             actions.map(value =>{
@@ -154,13 +153,6 @@ const getScheduledActions = async () => {
                    }
                 }
            })
-        }else {
-            const auction = actions.filter(value => value && value.call.Value.method === "newAuction")
-            // if there is an auction, push all data to the array with scheduled auctions.
-            if (auction.length){
-                scheduledAuctions.push({...auction[0], "blockExecution": convertToNumber(block_execution.toHuman()[0])});
-            }
-        }
     })
 
     return scheduledAuctions
@@ -168,7 +160,7 @@ const getScheduledActions = async () => {
 
 const getCurrentAuction = async () => {
     let activeAuctionInformation, currentAuctionEndStartBlock, currentAuctionLP;
-    const auctionsCounter = (await api.query.auctions.auctionCounter()).toHuman();
+    const auctionsCounter = (await api.query.auctions.auctionCounter()).toHuman()
 
     const currentAuction = (await api.query.auctions.auctionInfo()).toHuman();
     const isAuctionActive = currentAuction ? true : false;
