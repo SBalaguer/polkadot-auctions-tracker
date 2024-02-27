@@ -2,3 +2,4 @@
 package-lock.json
 notes.md
 /client
+.DS_Store

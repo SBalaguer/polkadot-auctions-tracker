@@ -1,0 +1,394 @@
+{ 
+    "kusama":[
+        { 
+            "name": "AssetHub",
+            "paraid": 1000
+        },
+        { 
+            "name": "Encointer",
+            "paraid": 1001
+        },
+        { 
+            "name": "BridgeHub",
+            "paraid": 1002
+        },
+        { 
+            "name": "Karura",
+            "paraid": 2000
+        },
+        { 
+            "name": "Bfrost",
+            "paraid": 2001
+        },
+        { 
+            "name": "Khala",
+            "paraid": 2004
+        },
+        { 
+            "name": "Shiden",
+            "paraid": 2007
+        },
+        { 
+            "name": "Sora",
+            "paraid": 2011
+        },
+        { 
+            "name": "Crust",
+            "paraid": 2012
+        },
+        { 
+            "name": "Integritee",
+            "paraid": 2015
+        },
+        { 
+            "name": "Moonriver",
+            "paraid": 2023
+        },
+        { 
+            "name": "Genshiro",
+            "paraid": 2024
+        },
+        { 
+            "name": "Robonomics",
+            "paraid": 2048
+        },
+        { 
+            "name": "Calamari",
+            "paraid": 2084
+        },
+        { 
+            "name": "Parallel Heiko",
+            "paraid": 2085
+        },
+        { 
+            "name": "Picasso",
+            "paraid": 2087
+        },
+        { 
+            "name": "Altair",
+            "paraid": 2088
+        },
+        { 
+            "name": "Basilisk",
+            "paraid": 2090
+        },
+        { 
+            "name": "Kintsugi",
+            "paraid": 2092
+        },
+        { 
+            "name": "Quartz",
+            "paraid": 2095
+        },
+        { 
+            "name": "Pioneer",
+            "paraid": 2096
+        },
+        { 
+            "name": "Crab",
+            "paraid": 2105
+        },
+        { 
+            "name": "Litmus",
+            "paraid": 2106
+        },
+        { 
+            "name": "Mangata",
+            "paraid": 2110
+        },
+        { 
+            "name": "Kabocha",
+            "paraid": 2113
+        },
+        { 
+            "name": "Turing",
+            "paraid": 2114
+        },
+        { 
+            "name": "Bajun",
+            "paraid": 2119
+        },
+        { 
+            "name": "Imbue",
+            "paraid": 2121
+        },
+        { 
+            "name": "GM",
+            "paraid": 2123
+        },
+        { 
+            "name": "Amplitude",
+            "paraid": 2124
+        },
+        { 
+            "name": "InvArch",
+            "paraid": 2125
+        },
+        { 
+            "name": "DAO IPCI",
+            "paraid": 2222
+        },
+        { 
+            "name": "Subzero",
+            "paraid": 2236
+        },
+        { 
+            "name": "Accurast Canary",
+            "paraid": 2239
+        },
+        { 
+            "name": "Krest",
+            "paraid": 2241
+        },
+        { 
+            "name": "Quantum",
+            "paraid": 2274
+        },
+        { 
+            "name": "Kreivo",
+            "paraid": 2281
+        },
+        { 
+            "name": "t1rn",
+            "paraid": 3334
+        },
+        { 
+            "name": "K-Laos",
+            "paraid": 3336
+        },
+        { 
+            "name": "Curio",
+            "paraid": 3339
+        },
+        { 
+            "name": "Yerba",
+            "paraid": 3345
+        },
+        { 
+            "name": "NA",
+            "paraid": 2261
+        },
+        { 
+            "name": "NA",
+            "paraid": 2275
+        },
+        { 
+            "name": "Gondatsu",
+            "paraid": 3338
+        },
+        { 
+            "name": "NA",
+            "paraid": 3340
+        },
+        { 
+            "name": "NA",
+            "paraid": 3343
+        },
+        { 
+            "name": "NA",
+            "paraid": 3344
+        },
+        { 
+            "name": "NA",
+            "paraid": 3346
+        }
+    ],
+    "polkadot":[
+        { 
+            "name": "AssetHub",
+            "paraid": 1000
+        },
+        { 
+            "name": "Collectives",
+            "paraid": 1001
+        },
+        { 
+            "name": "BridgeHub",
+            "paraid": 1002
+        },
+        { 
+            "name": "Acala",
+            "paraid": 2000
+        },
+        { 
+            "name": "Clover",
+            "paraid": 2002
+        },
+        { 
+            "name": "Moonbeam",
+            "paraid": 2004
+        },
+        { 
+            "name": "Astar",
+            "paraid": 2006
+        },
+        { 
+            "name": "Kapex",
+            "paraid": 2007
+        },
+        { 
+            "name": "Crust",
+            "paraid": 2008
+        },
+        { 
+            "name": "Parallel",
+            "paraid": 2012
+        },
+        { 
+            "name": "Litentry",
+            "paraid": 2013
+        },
+        { 
+            "name": "Composable Finance",
+            "paraid": 2019
+        },
+        { 
+            "name": "SORA",
+            "paraid": 2025
+        },
+        { 
+            "name": "Nodle",
+            "paraid": 2026
+        },
+        { 
+            "name": "Coinversation",
+            "paraid": 2027
+        },
+        { 
+            "name": "Bifrost",
+            "paraid": 2030
+        },
+        { 
+            "name": "Centrifuge",
+            "paraid": 2031
+        },
+        { 
+            "name": "Interlay",
+            "paraid": 2032
+        },
+        { 
+            "name": "HydraDX",
+            "paraid": 2034
+        },
+        { 
+            "name": "Phala Network",
+            "paraid": 2035
+        },
+        { 
+            "name": "Unique Network",
+            "paraid": 2037
+        },
+        { 
+            "name": "Integritee",
+            "paraid": 2039
+        },
+        { 
+            "name": "Polkadex",
+            "paraid": 2040
+        },
+        { 
+            "name": "NeuroWeb",
+            "paraid": 2043
+        },
+        { 
+            "name": "Darwinia",
+            "paraid": 2046
+        },
+        { 
+            "name": "Bitgreen",
+            "paraid": 2048
+        },
+        { 
+            "name": "Ajuna Network",
+            "paraid": 2051
+        },
+        { 
+            "name": "OmniBTC",
+            "paraid": 2053
+        },
+        { 
+            "name": "Aventus",
+            "paraid": 2056
+        },
+        { 
+            "name": "Watr Network",
+            "paraid": 2058
+        },
+        { 
+            "name": "Kilt",
+            "paraid": 2086
+        },
+        { 
+            "name": "OAK Network",
+            "paraid": 2090
+        },
+        { 
+            "name": "Frequency",
+            "paraid": 2091
+        },
+        { 
+            "name": "Zeitgeist",
+            "paraid": 2092
+        },
+        { 
+            "name": "Hashed Network",
+            "paraid": 2093
+        },
+        { 
+            "name": "Pendulum",
+            "paraid": 2094
+        },
+        { 
+            "name": "Subsocial",
+            "paraid": 2101
+        },
+        { 
+            "name": "Manta",
+            "paraid": 2104
+        },
+        { 
+            "name": "t3rn",
+            "paraid": 3333
+        },
+        { 
+            "name": "Moonsama",
+            "paraid": 3334
+        },
+        { 
+            "name": "Peaq",
+            "paraid": 3338
+        },
+        { 
+            "name": "InvArch",
+            "paraid": 3340
+        },
+        { 
+            "name": "Polimec",
+            "paraid": 3344
+        },
+        { 
+            "name": "Energy Web X",
+            "paraid": 3345
+        },
+        { 
+            "name": "Logion",
+            "paraid": 3354
+        },
+        { 
+            "name": "NA",
+            "paraid": 2055
+        },
+        { 
+            "name": "NA",
+            "paraid": 2097
+        },
+        { 
+            "name": "NA",
+            "paraid": 2106
+        },
+        { 
+            "name": "NA",
+            "paraid": 3346
+        }
+    ]
+}

@@ -1,17 +1,26 @@
 // Import
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { argv } from 'node:process';
+import parachainsInfo from './parachains.json' assert { type: "json" };
 
 let chain;
+let parachains;
+
+console.log("starting")
 
 argv.filter((val) => {
     const parsedVal = val.split("=");
     if (parsedVal[0] === 'chain') {
         if (parsedVal[1] === 'kusama'){
             chain = 'kusama';
+            parachains = parachainsInfo.kusama
         } else {
             chain = 'polkadot'
+            parachains = parachainsInfo.polkadot
         }
+    } else {
+        chain = 'polkadot'
+        parachains = parachainsInfo.polkadot
     }
 });
 
@@ -44,12 +53,30 @@ async function main () {
 
     const currentLeasePeriod = Math.floor((lastBlockNumber-slotOffset)/leasePeriodDuration)
 
+    console.log("**************************")
+    console.log("** CURRENT LEASE PERIOD **")
+    console.log("**************************")
+    console.log(currentLeasePeriod)
+
     const {allRemainingLeases} = await potentialRenewals(currentLeasePeriod)
 
+    console.log("**************************")
+    console.log("** ALL REMAINING LEASES **")
+    console.log("**************************")
     console.log(allRemainingLeases)
+    
+    const {unlockPerLP} = await endingCrowdoans();
+    
+    // console.log("** CROWDLOAN UNLOCK AMOUNTS **")
+    // console.log(unlockPerLP)
+
     
     // At this moment, there is information of an ongoing auction, if any, and the scheduled auctions.
     // The objective is to build an array of objects of all ongoing + scheduled auctions, and storte it on the parsedListOfAuctions array.
+
+    console.log("**********************")
+    console.log("** AUCTION SCHEDULE **")
+    console.log("**********************")
 
     // Get Scheduled auctions
     const scheduledAuctions = await getScheduledActions();
@@ -111,7 +138,7 @@ async function main () {
     })
 
     console.log(parsedListOfAuctions)
-    console.log("avgBlockTime", avgBlockTime)
+    // console.log("avgBlockTime", avgBlockTime)
     return parsedListOfAuctions
 
 }
@@ -216,15 +243,37 @@ const potentialRenewals = async (clp) => {
 
         //object:
         // {reamiening_leases:[paraid1,...paraidn]}
+        const paraName = findParaName(humanParaID)
 
         if (keys.includes(String(lastLease))){
-            allRemainingLeases[lastLease] = [...allRemainingLeases[lastLease], humanParaID]
+            allRemainingLeases[lastLease] = [...allRemainingLeases[lastLease], {paraID: humanParaID, name: paraName}]
         } else {
-            allRemainingLeases[lastLease] = [humanParaID]
+            allRemainingLeases[lastLease] = [{paraID: humanParaID, name: paraName}]
         }
     });
 
     return {allRemainingLeases}
+}
+
+const findParaName = (paraID) => {
+    const paraName = parachains.filter(paraInfo => paraInfo.paraid === paraID)
+
+    return paraName.length ? paraName[0].name : "NA"
+}
+
+const endingCrowdoans = async () => {
+    const allCrowdloans = await api.query.crowdloan.funds.entries()
+    const unlockPerLP = {}
+    allCrowdloans.forEach(([{ args: [paraID] }, crowdloanInfo]) => {
+        const humanCrowdloanInfo = crowdloanInfo.toHuman();
+        if (unlockPerLP[humanCrowdloanInfo.lastPeriod]) {
+             unlockPerLP[humanCrowdloanInfo.lastPeriod] = unlockPerLP[humanCrowdloanInfo.lastPeriod] + convertToNumber(humanCrowdloanInfo.raised)/10000000000;
+         } else {
+             unlockPerLP[humanCrowdloanInfo.lastPeriod] = convertToNumber(humanCrowdloanInfo.raised)/10000000000;
+        }
+    })
+
+    return {unlockPerLP}
 }
 
 const calculateTargetDate = (t, b1, b2, avg) => {
